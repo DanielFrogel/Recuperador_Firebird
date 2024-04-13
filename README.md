@@ -1,2 +1,2 @@
 # Recuperador_Firebird
-App para Realizar Recuperação em Banco de Dados Firebird
+App feito em Python para realizar Recuperação em Banco de Dados Firebird
