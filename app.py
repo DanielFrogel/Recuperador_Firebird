@@ -59,6 +59,7 @@ class BancoDados:
         else:
             return 0                         
 
+# Função para retornar em string tamanho do arquivo em kb, mb ou gb
 def tamanho_arquivo(arquivo) -> str:
     try:        
         if isinstance(arquivo, str):
@@ -78,6 +79,7 @@ def tamanho_arquivo(arquivo) -> str:
     except:
         return
 
+# Função para Zipar arquivos
 def zip_arquivo(arquivo):
     try:
         nome_zip = os.path.splitext(arquivo)[0] + '.zip'
@@ -88,6 +90,7 @@ def zip_arquivo(arquivo):
     except PermissionError as e:
         return e
 
+# Função para criar a tela principal
 def janela_principal():
     
     def sair():
@@ -102,7 +105,7 @@ def janela_principal():
         console.delete("1.0", tk.END)
         console.config(state="disabled")
 
-    # Função para adicionar os textos no Console de retorno da aplicação
+    # Função para adicionar os textos no Console de retorno da aplicação em negrito ou normal
     def adicionar_console(texto, negrito=False):
         console.config(state="normal")
         bold_font = font.Font(console, console.cget("font"))
@@ -163,11 +166,11 @@ def janela_principal():
             adicionar_console(e)
             habilita_desabilita_menus(True)                              
 
-    def verificar_banco_thread():
-        # Inicia uma nova thread para executar a função verificar_banco        
+    def verificar_banco_thread():               
         thread = Thread(target=verificar_banco)
         thread.start()
 
+    # Função para verificar se Firebird está em execução
     def test_firebird():
         if ("firebird.exe" in (i.name() for i in psutil.process_iter())):
             status_bar1.config(text='Firebird Conectado', fg='green')
@@ -388,7 +391,6 @@ def janela_principal():
 
     test_firebird()
         
-
     principal.mainloop()
 
 if __name__ == '__main__':
