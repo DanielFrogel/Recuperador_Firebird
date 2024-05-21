@@ -120,13 +120,15 @@ def janela_principal():
             console.insert(tk.END, f"{texto}")
             console.config(state="disabled")
             console.yview(tk.END)   
-            
+    
+    # Função para adicionar texto na statusbar2        
     def adiciona_status_bar(banco_dados,tamanho):
         if len(banco_dados) > 45:
             status_bar2.config(text=f'...{(banco_dados[len(banco_dados)-45:len(banco_dados)])} - {tamanho}')
         else:
             status_bar2.config(text=f'{banco_dados} - {tamanho}')                         
 
+    # Função para habilitar e desabilitar menus
     def habilita_desabilita_menus(condicao=bool):   
         if banco.db != '':
             for button in [botao_selecionar, botao_verificar, botao_backup, botao_recuperar, botao_restaurar]:
@@ -135,6 +137,7 @@ def janela_principal():
             for button in [botao_selecionar, botao_restaurar]:
                 button.config(state=("normal" if condicao else "disabled"))                    
 
+    # Função para selecionar o banco de dados
     def selecionar_banco():
         banco_dados = banco_dados = str(filedialog.askopenfilename(filetypes=(("Firebird DataBase (*.fdb)", "*.fdb"), ("Todos os arquivos", "*.*")))).replace('/','\\')        
         if banco_dados != '':
@@ -145,9 +148,9 @@ def janela_principal():
             adiciona_status_bar(banco.db,tamanho_arquivo(banco.size))            
             habilita_desabilita_menus(True)
 
+    # Função para verificar estado do Banco
     def verificar_banco():        
-        limpa_console()                       
-        
+        limpa_console()                               
         try:                       
             if test_firebird():
                 adicionar_console('\nIniciando Verificação de Banco de Dados.....\n\n', True)                 
@@ -166,6 +169,7 @@ def janela_principal():
             adicionar_console(e)
             habilita_desabilita_menus(True)                              
 
+    # Cria Thread para melhor execução
     def verificar_banco_thread():               
         thread = Thread(target=verificar_banco)
         thread.start()
@@ -181,14 +185,14 @@ def janela_principal():
             adicionar_console('\n\n- Firebird Desconectado -\n\n-> Verificar Serviço do Firebird\n-> Reiniciar aplicação\n', True) 
             habilita_desabilita_menus(False)             
             return False              
-            
+    
+    # Função para criar o .fbk do banco       
     def backup_banco():                
         if messagebox.askyesno('Backup da Banco de Dados','Desejar preparar o Banco de Dados?'):
             verificar_banco()           
 
         if banco.db != '':
-            limpa_console()            
-            
+            limpa_console()                       
             try:
                 if test_firebird():
                     habilita_desabilita_menus(False)
@@ -210,19 +214,19 @@ def janela_principal():
                     if messagebox.askyesno('Compactar Arquivo', 'Deseja compactar o arquivo de Backup?'):
                         nome_zip = zip_arquivo(banco.fbk)
                         adicionar_console(f'\n\nCriado Arquivo Compactado:\n\n', True)
-                        adicionar_console(f'{nome_zip} - {tamanho_arquivo(nome_zip)}\n\n')                         
-                                     
+                        adicionar_console(f'{nome_zip} - {tamanho_arquivo(nome_zip)}\n\n')                                                              
             except DatabaseError as e:
                 adicionar_console(e) 
                 habilita_desabilita_menus(True)         
-            
+    
+    # Cria Thread para melhor execução        
     def backup_banco_thread():                              
         thread = Thread(target=backup_banco)
         thread.start()
-        
+    
+    # Função para restaurar o arquivo .fbk para .fdb        
     def restauracao_banco(): 
-        fbk = str(filedialog.askopenfilename(filetypes=(("Firebird Database Backup (*.fbk)", "*.fbk"), ("Todos os arquivos", "*.*")))).replace('/','\\')                     
-        
+        fbk = str(filedialog.askopenfilename(filetypes=(("Firebird Database Backup (*.fbk)", "*.fbk"), ("Todos os arquivos", "*.*")))).replace('/','\\')        
         if fbk != '':
             try:    
                 banco.set_db_fbk(fbk)                                                                
@@ -230,8 +234,7 @@ def janela_principal():
                 if test_firebird():
                     if os.path.exists(banco.db):   
                         os.rename(banco.db,banco.backup_db())
-                        backup = True 
-                    
+                        backup = True                     
                     habilita_desabilita_menus(False) 
                     with connect_server('localhost', user=banco.user, password=banco.password) as srv:
                         srv.database.restore(backup=banco.fbk,
@@ -242,7 +245,6 @@ def janela_principal():
                         while retorno != None:
                             adicionar_console(retorno)
                             retorno = srv.readline()                                                                
-
                     if backup:
                         adicionar_console('\nCriado Backup:',True)    
                         adicionar_console(f'\n{banco.backup_db()}')    
@@ -253,19 +255,20 @@ def janela_principal():
             except DatabaseError as e:
                 adicionar_console(e) 
                 habilita_desabilita_menus(True)                
-                
+    
+    # Cria Thread para melhor execução            
     def restauracao_banco_thread():
         thread = Thread(target=restauracao_banco)
         thread.start()                        
-                
+    
+    # Função que faz a verificação, backup e restauração em sequência            
     def restaurar_otimizar_banco():
         if banco.db != '':
             if test_firebird():
                 verificar_banco()
                 try:                                   
                     habilita_desabilita_menus(False) 
-                    tamanho_anterior = banco.size
-                    
+                    tamanho_anterior = banco.size                    
                     with connect_server('localhost', user=banco.user, password=banco.password) as srv:
                         srv.database.backup(database=banco.db,
                                             backup=banco.fbk,
@@ -300,7 +303,8 @@ def janela_principal():
                 except DatabaseError as e:
                     adicionar_console(e) 
                     habilita_desabilita_menus(True)                                  
-                    
+     
+    # Cria Thread para melhor execução                    
     def restaurar_otimizar_banco_thread():
         thread = Thread(target=restaurar_otimizar_banco)
         thread.start()                                             
@@ -393,6 +397,7 @@ def janela_principal():
         
     principal.mainloop()
 
+# Inicia a aplicação e cria a janela principal
 if __name__ == '__main__':
     banco = BancoDados(user='SYSDBA', password='masterkey')
     janela_principal()
