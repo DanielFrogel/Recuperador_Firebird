@@ -28,6 +28,9 @@ Este é um projeto de aplicação em Python para realizar backup e recuperação
    
 **Observação:** Se o Firebird que estiver instalado está na versão de 32 bits, certifique-se de executar a aplicação com o Python de 32 bits também.
 
+## Download do Executável
+Caso prefira, você pode fazer o download do executável na seção de [releases]([link_para_releases](https://github.com/DanielFrogel/Recuperador_Firebird/releases)) deste repositório.
+
 ## Contribuição
 Contribuições são bem-vindas! Se você encontrar algum problema ou tiver alguma sugestão de melhoria, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
