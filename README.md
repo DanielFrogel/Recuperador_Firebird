@@ -1,3 +1,4 @@
+![Firebird](https://avatars.githubusercontent.com/u/6057940?s=200&v=4)
 # Firebird Database Backup and Restore Application
 
 ## Descrição do Projeto
@@ -10,14 +11,22 @@ Este é um projeto de aplicação em Python para realizar backup e recuperação
 - Otimização do banco de dados Firebird para melhorar o desempenho
 
 ## Tecnologias Utilizadas
-- Linguagem: Python
-- Requer Firebird instalado no sistema
+- Linguagem: Python 3.12
+- Requer Firebird 3
 
 ## Como Utilizar
 1. Clone este repositório para o seu ambiente local.
-2. Instale as dependências necessárias utilizando o comando `pip install -r requirements.txt`.
-3. Execute a aplicação usando o comando `python main.py`.
+2. Instale as dependências necessárias utilizando o comando:  
+    ```bash
+    pip install -r requirements.txt
+    ```
+3. Execute a aplicação usando o comando:
+    ```bash
+    python main.py
+    ```
 4. Siga as instruções fornecidas pela aplicação para realizar as operações desejadas.
+   
+**Observação:** Se o Firebird que estiver instalado está na versão de 32 bits, certifique-se de executar a aplicação com o Python de 32 bits também.
 
 ## Contribuição
 Contribuições são bem-vindas! Se você encontrar algum problema ou tiver alguma sugestão de melhoria, sinta-se à vontade para abrir uma issue ou enviar um pull request.
