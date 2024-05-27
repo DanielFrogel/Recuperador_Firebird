@@ -1,15 +1,6 @@
-<<<<<<< HEAD
 firebird-base==1.8.0
 firebird-driver==1.10.4
 protobuf==5.27.0
 psutil==5.9.8
 python-dateutil==2.9.0.post0
 six==1.16.0
-=======
-firebird-base==1.8.0
-firebird-driver==1.10.4
-protobuf==5.27.0
-psutil==5.9.8
-python-dateutil==2.9.0.post0
-six==1.16.0
->>>>>>> ab0840deab9b17bbb6836e7e8268e5a62795e216
