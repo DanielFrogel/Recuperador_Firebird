@@ -1,8 +1,6 @@
 import tkinter as tk
-from tkinter import font
-from tkinter import messagebox
+from tkinter import font, messagebox, filedialog
 from firebird.driver import connect_server, SrvBackupFlag, SrvRestoreFlag, SrvRepairFlag, DatabaseError
-from tkinter import filedialog
 import datetime
 import psutil
 from threading import Thread
