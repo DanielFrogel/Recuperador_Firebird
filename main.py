@@ -326,7 +326,7 @@ def janela_principal():
 
     # Cria a Janela Principal da aplicação
     principal = tk.Tk()
-    principal.title("Recuperação de Banco de Dados - Firebird - v1.0")
+    principal.title("Recuperação de Banco de Dados - Firebird - v1.1")
     principal.resizable(width=False, height=False)
     principal.geometry('500x537')
 
