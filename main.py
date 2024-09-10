@@ -117,7 +117,7 @@ def janela_principal():
         else:
             console.insert(tk.END, f"{texto}")
             console.config(state="disabled")
-            console.yview(tk.END)   
+            console.yview(tk.END)                
     
     # Função para adicionar texto na statusbar2        
     def adiciona_status_bar(banco_dados,tamanho):
@@ -194,17 +194,14 @@ def janela_principal():
             try:
                 if test_firebird():
                     habilita_desabilita_menus(False)
+                    console.config(state="normal")
                     with connect_server('localhost', user=banco.user, password=banco.password) as srv:
                         srv.database.backup(database=banco.db,
                                             backup=banco.fbk,
                                             flags=SrvBackupFlag.IGNORE_CHECKSUMS | SrvBackupFlag.NO_GARBAGE_COLLECT | SrvBackupFlag.IGNORE_LIMBO,
-                                            stats='TD', verbose=True)  
-                        retorno = srv.readline()
-                                                                    
-                        while retorno != None:
-                            adicionar_console(retorno)
-                            retorno = srv.readline()
-                            
+                                            stats='TD', verbose=True, callback=lambda x: console.insert(tk.END, x))  
+                    
+                    console.config(state="disabled")        
                     habilita_desabilita_menus(True)
                     adicionar_console(f'\n\nCriado Arquivo de Backup:\n\n', True)
                     adicionar_console(f'{banco.fbk}\n\n') 
@@ -233,16 +230,17 @@ def janela_principal():
                     if os.path.exists(banco.db):   
                         os.rename(banco.db,banco.backup_db())
                         backup = True                     
-                    habilita_desabilita_menus(False) 
+                    habilita_desabilita_menus(False)              
+                    console.config(state="normal")
+
                     with connect_server('localhost', user=banco.user, password=banco.password) as srv:
                         srv.database.restore(backup=banco.fbk,
                                             database=banco.db,
                                             flags=SrvRestoreFlag.REPLACE,
-                                            stats='TD', verbose=True, page_size=16384)
-                        retorno = srv.readline()                                                                
-                        while retorno != None:
-                            adicionar_console(retorno)
-                            retorno = srv.readline()                                                                
+                                            stats='TD', verbose=True, page_size=16384,
+                                            callback=lambda x: console.insert(tk.END, x))
+                    console.config(state="disabled") 
+                                                      
                     if backup:
                         adicionar_console('\nCriado Backup:',True)    
                         adicionar_console(f'\n{banco.backup_db()}')    
@@ -266,30 +264,24 @@ def janela_principal():
                 verificar_banco()
                 try:                                   
                     habilita_desabilita_menus(False) 
-                    tamanho_anterior = banco.size                    
+                    tamanho_anterior = banco.size      
+                    console.config(state="normal")                                  
                     with connect_server('localhost', user=banco.user, password=banco.password) as srv:
                         srv.database.backup(database=banco.db,
                                             backup=banco.fbk,
                                             flags=SrvBackupFlag.IGNORE_CHECKSUMS | SrvBackupFlag.NO_GARBAGE_COLLECT | SrvBackupFlag.IGNORE_LIMBO,
-                                            stats='TD', verbose=True)  
-                        retorno = srv.readline()                                                                    
-                        while retorno != None:
-                            adicionar_console(retorno)
-                            retorno = srv.readline() 
-                        
+                                            stats='TD', verbose=True,
+                                            callback=lambda x: console.insert(tk.END, x))  
+
                         os.rename(banco.db,banco.backup_db()) 
                                                     
                         srv.database.restore(backup=banco.fbk,
                                             database=banco.db,
                                             flags=SrvRestoreFlag.REPLACE,
-                                            stats='TD', verbose=True, page_size=16384)
-                        retorno = srv.readline()                                                                
-                        while retorno != None:
-                            adicionar_console(retorno)
-                            retorno = srv.readline()                            
-
+                                            stats='TD', verbose=True, page_size=16384,
+                                            callback=lambda x: console.insert(tk.END, x))                         
+                    console.config(state="disabled")   
                     adicionar_console(f'\nCriado Backup:\n{banco.backup_db()}', True) 
-                    adicionar_console(banco.backup_db()) 
                     adicionar_console('\n\nProcesso de Recuperação\\Otimização Finalizado', True)
                     
                     tamanho_reducao = tamanho_anterior - banco.size                                        
