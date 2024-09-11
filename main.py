@@ -306,8 +306,15 @@ def janela_principal():
             tela_mudar_usuario_senha.destroy()
 
         tela_mudar_usuario_senha = tk.Toplevel(principal)
+        tela_mudar_usuario_senha.grab_set()
         tela_mudar_usuario_senha.title('Login Firebird')
         tela_mudar_usuario_senha.resizable(False, False)
+        
+        x = principal.winfo_x()
+        y = principal.winfo_y() 
+        
+        tela_mudar_usuario_senha.geometry(f'+{x+25}+{y+25}')               
+
         labels = ["Usuário:", "Senha:"]
         default_values = [banco.user, banco.password]
         for row, (label_text, default_value) in enumerate(zip(labels, default_values)):
@@ -321,7 +328,7 @@ def janela_principal():
             else:
                 campo_usuario = campo
 
-        botao_salvar = tk.Button(tela_mudar_usuario_senha, text="Salvar", command=salvar_usuario_senha)
+        botao_salvar = tk.Button(tela_mudar_usuario_senha, text="Salvar", command=salvar_usuario_senha, width=15)
         botao_salvar.grid(row=len(labels), columnspan=2, padx=5, pady=5)
 
 
