@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import font, messagebox, filedialog, simpledialog
+from tkinter import font, messagebox, filedialog
 from firebird.driver import connect_server, SrvBackupFlag, SrvRestoreFlag, SrvRepairFlag, DatabaseError
 import datetime
 import psutil
@@ -97,7 +97,7 @@ def janela_principal():
 
     def mostrar_sobre():
         messagebox.showinfo('Sobre', "Aplicativo para Recuperação\\Backup de Bancos de Dados em Firebird.")
-
+        
     def limpa_console():
         console.config(state="normal")
         console.delete("1.0", tk.END)
