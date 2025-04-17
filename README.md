@@ -11,7 +11,7 @@ Este é um projeto de aplicação em Python para realizar backup e recuperação
 - Otimização do banco de dados Firebird para melhorar o desempenho
 
 ## Tecnologias Utilizadas
-- Linguagem: Python 3.12
+- Linguagem: Python 3.13
 - Requer Firebird 3
 
 ## Como Utilizar
@@ -22,7 +22,7 @@ Este é um projeto de aplicação em Python para realizar backup e recuperação
     ```
 3. Execute a aplicação usando o comando:
     ```bash
-    python main.py
+    python src/main.py
     ```
 4. Siga as instruções fornecidas pela aplicação para realizar as operações desejadas.
    

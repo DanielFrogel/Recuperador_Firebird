@@ -1,6 +1,9 @@
 firebird-base==1.8.0
-firebird-driver==1.10.4
-protobuf==5.27.0
-psutil==5.9.8
+firebird-driver==1.10.9
+protobuf==6.30.1
+psutil==7.0.0
+PyQt6==6.8.1
+PyQt6-Qt6==6.8.2
+PyQt6_sip==13.10.0
 python-dateutil==2.9.0.post0
-six==1.16.0
+six==1.17.0
